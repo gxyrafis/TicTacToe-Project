@@ -14,7 +14,10 @@ while True:
     game = TicTacToe()
     gametype = input("Press \"1\" to play against the MinMax Algorithm.\nPress \"2\" to have the random player play against it.\n"
                      "Press \"3\" to play against the A-B Algorithm.\nPress \"4\" to have the random player play against it.\n"
+                     "Press \"5\" to run MinMax vs Random 100 times.\nPress \"6\" to run A-B vs random 100 times.\n"
                      "Press \"q\" to exit\n>$")
+    skip = False
+
     if gametype == "1":
         while True:
             order = input("Who goes first? Press \"I\" for yourself or \"M\" for the MinMax Algorithm\n>$")
@@ -50,7 +53,7 @@ while True:
                 print("Invalid input!\n")
     elif gametype == "4":
         while True:
-            order = input("Who goes first? Press \"R\" for the random player or \"AB\" for the MinMax Algorithm\n>$")
+            order = input("Who goes first? Press \"R\" for the random player or \"AB\" for the A-B Algorithm\n>$")
             if order.upper() == "R":
                 utility = game.play_game(random_player, a_b_player)
                 break
@@ -59,14 +62,64 @@ while True:
                 break
             else:
                 print("Invalid input!\n")
+    elif gametype == "5":
+        skip = True
+        while True:
+            order = input("Who goes first? Press \"R\" for the random player or \"M\" for the Minmax Algorithm\n>$")
+            wincounterAlg = 0
+            wincounterRan = 0
+            if order.upper() == "R":
+                for i in range(100):
+                    utility = game.play_game(random_player, minmax_player)
+                    if utility == -1:
+                        wincounterAlg += 1
+                    elif utility == 1:
+                        wincounterRan += 1
+                break
+            elif order.upper() == "M":
+                for i in range(100):
+                    utility = game.play_game(minmax_player, random_player)
+                    if utility == 1:
+                        wincounterAlg += 1
+                    elif utility == -1:
+                        wincounterRan += 1
+                break
+            else:
+                print("Invalid input!\n")
+    elif gametype == "6":
+        skip = True
+        while True:
+            order = input("Who goes first? Press \"R\" for the random player or \"AB\" for the A-B Algorithm\n>$")
+            wincounterAlg = 0
+            wincounterRan = 0
+            if order.upper() == "R":
+                for i in range(100):
+                    utility = game.play_game(random_player, a_b_player)
+                    if utility == -1:
+                        wincounterAlg += 1
+                    elif utility == 1:
+                        wincounterRan += 1
+                break
+            elif order.upper() == "AB":
+                for i in range(100):
+                    utility = game.play_game(a_b_player, random_player)
+                    if utility == 1:
+                        wincounterAlg += 1
+                    elif utility == -1:
+                        wincounterRan += 1
+                break
+            else:
+                print("Invalid input!\n")
     elif gametype.lower() == "q":
         exit(0)
     else:
         print("Invalid input!\n")
         continue #Without this, the utility checks below crash the programme
-    if utility == 1:
+    if utility == 1 and skip != True:
         print("'X' won!")
-    elif utility == -1:
+    elif utility == -1 and skip != True:
         print("'O' won!")
-    else:
+    elif utility == 0 and skip != True:
         print('Tie!')
+    elif skip == True:
+        print("The Algorithm won " + str(wincounterAlg) + " times.\nThe Random player won " + str(wincounterRan) + " times.\nThere were " + str((100 - (wincounterRan + wincounterAlg))) + " draws.\n")
