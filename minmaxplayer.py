@@ -5,7 +5,6 @@ def minmax_player(game, state):
     forward all the way to the terminal  states. [Figure 5.3]"""
 
     player = game.to_move(state)
-
     def max_value(state):
         if game.terminal_test(state):
             return game.utility(state, player)
@@ -13,7 +12,6 @@ def minmax_player(game, state):
         v = -np.inf
         for action in game.actions(state):
             v = max(v, min_value(game.result(state, action)))
-
         return v
 
     def min_value(state):
@@ -23,7 +21,6 @@ def minmax_player(game, state):
         v = np.inf
         for action in game.actions(state):
             v = min(v, max_value(game.result(state, action)))
-
         return v
 
     return max(game.actions(state), key=lambda a: min_value(game.result(state, a)))

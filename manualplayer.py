@@ -1,6 +1,6 @@
 def manual_player(game, state):
     """A manual player."""
-    #game.display(state)
+    game.display(state)
     actions = game.actions(state)
     while True:
         action = input("Enter your move (e.g., 2,3): ")
@@ -13,4 +13,4 @@ def manual_player(game, state):
             else:
                 return action
         except:
-            print('invalid action!!')
+            print('invalid action!')
